@@ -15,8 +15,8 @@ function getNews() {
   })
     .done(function( data ) {
         var items = data.data;
-
-        $.each(items, function(i, item){
+        var filteredForDuplicated = filterForDuplicated(items);
+        $.each(filteredForDuplicated, function(i, item){
           if(item.image != null){  
             $('section').append(`
               <div>
@@ -46,3 +46,10 @@ function setHeadersImage(country, numberOfImages){
 
   });
 };
+
+//check if news contains duplicated articles
+function filterForDuplicated(news){
+  var uniq = {};
+  var filtered = news.filter(obj => !uniq[obj.title] && (uniq[obj.title] = true));
+  return filtered;
+} 
